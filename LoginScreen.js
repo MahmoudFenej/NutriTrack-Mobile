@@ -1,56 +1,84 @@
 import React from 'react';
-import { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { StyleSheet, Text, TextInput, View, TouchableOpacity, Image } from 'react-native';
 
-export function LoginScreen({ navigation }) {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-  
-    const handleLogin = () => {
-      // Mock successful login
-      if (email === 'test' && password === '1234') {
-        navigation.navigate('HomeDrawer');
-      } else {
-        alert('Invalid credentials');
-      }
-    };
-  
-    return (
-      <View style={styles.container}>
-        <Text>Login</Text>
-        <TextInput
-          placeholder="Email"
-          style={styles.input}
-          value={email}
-          onChangeText={setEmail}
-        />
-        <TextInput
-          placeholder="Password"
-          style={styles.input}
-          secureTextEntry
-          value={password}
-          onChangeText={setPassword}
-        />
-        <Button title="Login" onPress={handleLogin} />
-        <Button title="Signup" onPress={() => navigation.navigate('Signup')} />
+export default function App() {
+  return (
+    <View style={styles.container}>
+      {/* الشعار */}
+      <View style={styles.logoContainer}>
+        <View style={styles.logoCircle}>
+          {/* يمكن إضافة صورة داخل الدائرة */}
+          <Image
+            style={styles.logo}
+            source={{ uri: 'https://your-logo-url.com/logo.png' }} // ضع رابط الصورة هنا
+          />
+        </View>
       </View>
-    );
-  }
 
-  // Styles
+      {/* الحقول النصية */}
+      <TextInput style={styles.input} placeholder="Username" placeholderTextColor="#ccc" />
+      <TextInput style={styles.input} placeholder="Password" placeholderTextColor="#ccc" secureTextEntry={true} />
+
+      {/* الأزرار */}
+      <TouchableOpacity style={[styles.button, styles.loginButton]}>
+        <Text style={styles.buttonText}>LOG IN</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={[styles.button, styles.signUpButton]}>
+        <Text style={styles.buttonText}>SIGN UP</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    backgroundColor: '#001f3f', // خلفية زرقاء غامقة
     alignItems: 'center',
-    padding: 16,
+    justifyContent: 'center',
+  },
+  logoContainer: {
+    marginBottom: 50,
+  },
+  logoCircle: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    backgroundColor: '#003366', // لون خلفية الدائرة
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  logo: {
+    width: 80,
+    height: 80, // حجم الشعار
   },
   input: {
     width: '80%',
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 12,
-    paddingHorizontal: 8,
+    height: 50,
+    backgroundColor: '#003366', // لون الحقول
+    borderRadius: 10,
+    paddingHorizontal: 15,
+    color: 'white',
+    marginBottom: 20,
+    fontSize: 16,
+  },
+  button: {
+    width: '80%',
+    height: 50,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 15,
+  },
+  loginButton: {
+    backgroundColor: '#28a745', // لون أخضر
+  },
+  signUpButton: {
+    backgroundColor: '#ff851b', // لون برتقالي
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
