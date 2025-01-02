@@ -1,3 +1,4 @@
+import { Picker } from '@react-native-picker/picker';
 import React, { useState } from 'react';
 import {
   StyleSheet,
@@ -5,10 +6,9 @@ import {
   TextInput,
   View,
   TouchableOpacity,
-  Picker,
 } from 'react-native';
 
-export default function SignupScreen({ navigation }) {
+export function SignupScreen({ navigation }) {
   const [gender, setGender] = useState('male');
   const [goal, setGoal] = useState('');
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TextInput, View, TouchableOpacity, Image } from 'react-native';
 
-export default function App() {
+export function LoginScreen({ navigation }) {
   return (
     <View style={styles.container}>
       {/* الشعار */}
@@ -23,7 +23,9 @@ export default function App() {
       <TouchableOpacity style={[styles.button, styles.loginButton]}>
         <Text style={styles.buttonText}>LOG IN</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={[styles.button, styles.signUpButton]}>
+      <TouchableOpacity style={[styles.button, styles.signUpButton]} onPress={()=>{
+        navigation.navigate("Signup")
+      }}>
         <Text style={styles.buttonText}>SIGN UP</Text>
       </TouchableOpacity>
     </View>
