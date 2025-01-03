@@ -1,13 +1,11 @@
-import 'react-native-gesture-handler'; // السطر الذي تم إضافته
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
+import { createStackNavigator } from '@react-navigation/stack';
 import { LoginScreen } from './LoginScreen';
-import { SignupScreen } from './SignupScreen';
+import { SignupScreen } from './SignUpScreen';
 import { HomeDrawer } from './HomeDrawer';
 
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
 export default function App() {
   return (
