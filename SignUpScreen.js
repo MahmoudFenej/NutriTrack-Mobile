@@ -1,17 +1,29 @@
 import React, { useState } from 'react';
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  TouchableOpacity,
-} from 'react-native';
+import { ScrollView, StyleSheet, Text, TextInput, View, TouchableOpacity, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 
 export function SignupScreen({ navigation }) {
   const [gender, setGender] = useState('male');
   const [goal, setGoal] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [age, setAge] = useState('');
+  const [weight, setWeight] = useState('');
+  const [height, setHeight] = useState('');
+
+  const handleSignUp = () => {
+    // تحقق من أن جميع الحقول تم ملؤها
+    if (!username || !password || !firstName || !lastName || !email || !age || !weight || !height || !goal) {
+      Alert.alert('Error', 'Please fill in all the fields before proceeding.');
+      return; // إذا كانت الحقول فارغة، لا يتم التنقل إلى LoginScreen
+    }
+
+    // إذا كانت جميع الحقول مملوءة، الانتقال إلى شاشة Login
+    navigation.navigate('Login');
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -19,12 +31,14 @@ export function SignupScreen({ navigation }) {
         <Text style={styles.headerText}>NutriTrack</Text>
       </View>
 
-      <TextInput style={styles.input} placeholder="User Name" />
-      <TextInput style={styles.input} placeholder="Password" secureTextEntry />
-      <TextInput style={styles.input} placeholder="First Name" />
-      <TextInput style={styles.input} placeholder="Last Name" />
-      <TextInput style={styles.input} placeholder="Email" keyboardType="email-address" />
-      <TextInput style={styles.input} placeholder="Age" keyboardType="numeric" />
+      <TextInput style={styles.input} placeholder="User Name" value={username} onChangeText={setUsername} />
+      <TextInput style={styles.input} placeholder="Password" secureTextEntry value={password} onChangeText={setPassword} />
+      <TextInput style={styles.input} placeholder="First Name" value={firstName} onChangeText={setFirstName} />
+      <TextInput style={styles.input} placeholder="Last Name" value={lastName} onChangeText={setLastName} />
+      <TextInput style={styles.input} placeholder="Email" keyboardType="email-address" value={email} onChangeText={setEmail} />
+      <TextInput style={styles.input} placeholder="Age" keyboardType="numeric" value={age} onChangeText={setAge} />
+      <TextInput style={styles.input} placeholder="Weight (kg)" keyboardType="numeric" value={weight} onChangeText={setWeight} />
+      <TextInput style={styles.input} placeholder="Height (cm)" keyboardType="numeric" value={height} onChangeText={setHeight} />
 
       <View style={styles.genderContainer}>
         <Text style={styles.label}>Gender:</Text>
@@ -42,9 +56,6 @@ export function SignupScreen({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      <TextInput style={styles.input} placeholder="Weight (kg)" keyboardType="numeric" />
-      <TextInput style={styles.input} placeholder="Height (cm)" keyboardType="numeric" />
-
       <Picker
         selectedValue={goal}
         style={styles.picker}
@@ -56,11 +67,8 @@ export function SignupScreen({ navigation }) {
         <Picker.Item label="Gain Muscle" value="gain" />
       </Picker>
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate('HomeDrawer')} // التنقل إلى شاشة HomeDrawer
-      >
-        <Text style={styles.buttonText}>Sign Up</Text> {/* استبدال "Next" بـ "Sign Up" */}
+      <TouchableOpacity style={styles.button} onPress={handleSignUp}>
+        <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
     </ScrollView>
   );
