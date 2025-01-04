@@ -1,54 +1,68 @@
+// ملف: NutriTrack_Mobile/HomeScreen.js
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-export default function App() {
+const HomeScreen = () => {
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.title}>NutriTrack</Text>
-        <View style={styles.iconsContainer}>
+        <View style={styles.headerIcons}>
           <TouchableOpacity style={styles.icon}>
-            <Text>📅</Text>
+            <Text>📅</Text> {/* Placeholder for Calendar Icon */}
           </TouchableOpacity>
           <TouchableOpacity style={styles.icon}>
-            <Text>⚙️</Text>
+            <Text>⚙️</Text> {/* Placeholder for Settings Icon */}
           </TouchableOpacity>
         </View>
       </View>
 
       {/* Calendar */}
       <View style={styles.calendar}>
-        {["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"].map((day, index) => (
-          <View key={index} style={styles.day}>
-            <Text style={styles.dayText}>{day}</Text>
-            <Text style={styles.dateText}>{index + 1}</Text>
-          </View>
+        {['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'].map((day, index) => (
+          <Text key={index} style={styles.dayText}>
+            {day}
+          </Text>
         ))}
+        <View style={styles.dateRow}>
+          {[1, 2, 3, 4, 5, 6, 7].map((date, index) => (
+            <Text key={index} style={styles.dateText}>
+              {date}
+            </Text>
+          ))}
+        </View>
+        <View style={styles.dateRow}>
+          {[8, 9, 10, 11, 12, 13, 14].map((date, index) => (
+            <Text key={index} style={styles.dateText}>
+              {date}
+            </Text>
+          ))}
+        </View>
       </View>
 
-      {/* Calories Circle */}
-      <View style={styles.calorieContainer}>
+      {/* Calorie Tracker */}
+      <View style={styles.calorieTracker}>
         <Text style={styles.calorieText}>Cal</Text>
-        <Text style={styles.calorieNumber}>0 / 1500</Text>
+        <Text style={styles.calorieCount}>0 / 1500</Text>
       </View>
 
-      {/* Sections */}
-      <View style={styles.sections}>
-        {["Breakfast", "Before Workout", "Snack", "Lunch", "After Workout", "Dinner"].map((label, index) => (
-          <View key={index} style={styles.section}>
-            <Text style={styles.sectionLabel}>{label}</Text>
+      {/* Meal Sections */}
+      <View style={styles.mealSections}>
+        {['Breakfast', 'Before exercise', 'Snack', 'Lunch', 'After exercise', 'Dinner'].map((meal, index) => (
+          <View key={index} style={styles.mealCard}>
+            <Text style={styles.mealText}>{meal}</Text>
           </View>
         ))}
       </View>
-    </ScrollView>
+    </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
-    backgroundColor: '#F8F8F8',
+    flex: 1,
+    backgroundColor: '#F9F9F9',
     padding: 20,
   },
   header: {
@@ -60,63 +74,69 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#2A2A2A',
+    color: '#002B5B',
   },
-  iconsContainer: {
+  headerIcons: {
     flexDirection: 'row',
   },
   icon: {
     marginLeft: 10,
   },
   calendar: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    backgroundColor: '#4A6274',
+    backgroundColor: '#002B5B',
     padding: 10,
-    borderRadius: 8,
-  },
-  day: {
-    alignItems: 'center',
+    borderRadius: 10,
+    marginBottom: 20,
   },
   dayText: {
-    color: '#FFFFFF',
-    fontSize: 12,
+    color: 'white',
+    fontSize: 14,
+    textAlign: 'center',
+    marginBottom: 5,
+  },
+  dateRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 10,
   },
   dateText: {
-    color: '#FFFFFF',
+    color: 'white',
     fontSize: 14,
-    fontWeight: 'bold',
+    textAlign: 'center',
   },
-  calorieContainer: {
+  calorieTracker: {
     alignItems: 'center',
-    marginVertical: 20,
+    marginBottom: 20,
   },
   calorieText: {
-    fontSize: 18,
-    color: '#2A2A2A',
+    fontSize: 20,
+    color: '#B0C4DE',
   },
-  calorieNumber: {
+  calorieCount: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#2A2A2A',
+    color: '#002B5B',
   },
-  sections: {
+  mealSections: {
+    flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
   },
-  section: {
+  mealCard: {
     width: '30%',
     height: 100,
-    backgroundColor: '#E1F0FA',
-    borderRadius: 8,
-    marginVertical: 10,
+    backgroundColor: '#E8F0F2',
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 10,
+    marginBottom: 10,
   },
-  sectionLabel: {
+  mealText: {
     fontSize: 14,
-    fontWeight: 'bold',
-    color: '#2A2A2A',
+    color: '#002B5B',
+    textAlign: 'center',
   },
 });
+
+export default HomeScreen;

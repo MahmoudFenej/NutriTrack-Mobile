@@ -1,19 +1,20 @@
-import { Picker } from '@react-native-picker/picker';
 import React, { useState } from 'react';
 import {
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   View,
   TouchableOpacity,
 } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 
 export function SignupScreen({ navigation }) {
   const [gender, setGender] = useState('male');
   const [goal, setGoal] = useState('');
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>NutriTrack</Text>
       </View>
@@ -24,7 +25,7 @@ export function SignupScreen({ navigation }) {
       <TextInput style={styles.input} placeholder="Last Name" />
       <TextInput style={styles.input} placeholder="Email" keyboardType="email-address" />
       <TextInput style={styles.input} placeholder="Age" keyboardType="numeric" />
-      
+
       <View style={styles.genderContainer}>
         <Text style={styles.label}>Gender:</Text>
         <TouchableOpacity
@@ -43,7 +44,7 @@ export function SignupScreen({ navigation }) {
 
       <TextInput style={styles.input} placeholder="Weight (kg)" keyboardType="numeric" />
       <TextInput style={styles.input} placeholder="Height (cm)" keyboardType="numeric" />
-      
+
       <Picker
         selectedValue={goal}
         style={styles.picker}
@@ -59,15 +60,15 @@ export function SignupScreen({ navigation }) {
         style={styles.button}
         onPress={() => navigation.navigate('HomeDrawer')} // التنقل إلى شاشة HomeDrawer
       >
-        <Text style={styles.buttonText}>Next</Text>
+        <Text style={styles.buttonText}>Sign Up</Text> {/* استبدال "Next" بـ "Sign Up" */}
       </TouchableOpacity>
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: '#f8f8f8',
     alignItems: 'center',
     padding: 20,
@@ -129,6 +130,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
     width: '100%',
+    marginTop: 20,
   },
   buttonText: {
     color: 'white',
