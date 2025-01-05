@@ -1,7 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, View, TouchableOpacity, Image } from 'react-native';
 
 export function LoginScreen({ navigation }) {
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = () => {
+    // Mock successful login
+    if (email === 'test' && password === '1234') {
+      navigation.navigate('HomeDrawer');
+    } else {
+      alert('Invalid credentials');
+    }
+  };
+
   return (
     <View style={styles.container}>
       {/* الشعار */}
@@ -16,11 +29,11 @@ export function LoginScreen({ navigation }) {
       </View>
 
       {/* الحقول النصية */}
-      <TextInput style={styles.input} placeholder="Username" placeholderTextColor="#ccc" />
-      <TextInput style={styles.input} placeholder="Password" placeholderTextColor="#ccc" secureTextEntry={true} />
+      <TextInput style={styles.input} placeholder="Username" placeholderTextColor="#ccc" onChangeText={setEmail} />
+      <TextInput style={styles.input} placeholder="Password" placeholderTextColor="#ccc" secureTextEntry={true} onChangeText={setPassword}/>
 
       {/* الأزرار */}
-      <TouchableOpacity style={[styles.button, styles.loginButton]}>
+      <TouchableOpacity style={[styles.button, styles.loginButton]} onPress={handleLogin} >
         <Text style={styles.buttonText}>LOG IN</Text>
       </TouchableOpacity>
       <TouchableOpacity style={[styles.button, styles.signUpButton]} onPress={()=>{

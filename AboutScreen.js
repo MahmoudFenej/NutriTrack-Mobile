@@ -1,31 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
-export default function App() {
+export function AboutUsScreen() {
   return (
     <View style={styles.container}>
-      {/* الشعار */}
-      <View style={styles.logoContainer}>
-        <View style={styles.logoCircle}>
-          {/* يمكن إضافة صورة داخل الدائرة */}
-          <Image
-            style={styles.logo}
-            source={{ uri: 'https://your-logo-url.com/logo.png' }} // ضع رابط الصورة هنا
-          />
-        </View>
-      </View>
-
-      {/* الحقول النصية */}
-      <TextInput style={styles.input} placeholder="Username" placeholderTextColor="#ccc" />
-      <TextInput style={styles.input} placeholder="Password" placeholderTextColor="#ccc" secureTextEntry={true} />
-
-      {/* الأزرار */}
-      <TouchableOpacity style={[styles.button, styles.loginButton]}>
-        <Text style={styles.buttonText}>LOG IN</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={[styles.button, styles.signUpButton]}>
-        <Text style={styles.buttonText}>SIGN UP</Text>
-      </TouchableOpacity>
     </View>
   );
 }

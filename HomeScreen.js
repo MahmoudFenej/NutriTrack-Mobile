@@ -2,7 +2,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-const HomeScreen = () => {
+export const HomeScreen = () => {
   return (
     <View style={styles.container}>
       {/* Header */}
@@ -138,5 +138,3 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
-
-export default HomeScreen;

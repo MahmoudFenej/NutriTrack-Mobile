@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, View, TouchableOpacity, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 
-export function SignupScreen({ navigation }) {
+export function SignUpScreen({ navigation }) {
   const [gender, setGender] = useState('male');
   const [goal, setGoal] = useState('');
   const [username, setUsername] = useState('');
