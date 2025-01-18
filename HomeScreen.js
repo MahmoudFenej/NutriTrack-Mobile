@@ -9,30 +9,34 @@ export const HomeScreen = () => {
       <View style={styles.header}>
         <Text style={styles.title}>NutriTrack</Text>
         <View style={styles.headerIcons}>
-          <TouchableOpacity style={styles.icon}>
-            <Text>📅</Text> {/* Placeholder for Calendar Icon */}
+          <TouchableOpacity>
+            <Text style={styles.iconText}>📅</Text> {/* Calendar Icon */}
           </TouchableOpacity>
-          <TouchableOpacity style={styles.icon}>
-            <Text>⚙️</Text> {/* Placeholder for Settings Icon */}
+          <TouchableOpacity>
+            <Text style={styles.iconText}>⚙️</Text> {/* Settings Icon */}
           </TouchableOpacity>
         </View>
       </View>
 
       {/* Calendar */}
       <View style={styles.calendar}>
-        {['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'].map((day, index) => (
-          <Text key={index} style={styles.dayText}>
-            {day}
-          </Text>
-        ))}
-        <View style={styles.dateRow}>
+        {/* Days */}
+        <View style={styles.daysRow}>
+          {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, index) => (
+            <Text key={index} style={styles.dayText}>
+              {day}
+            </Text>
+          ))}
+        </View>
+        {/* Dates */}
+        <View style={styles.datesRow}>
           {[1, 2, 3, 4, 5, 6, 7].map((date, index) => (
             <Text key={index} style={styles.dateText}>
               {date}
             </Text>
           ))}
         </View>
-        <View style={styles.dateRow}>
+        <View style={styles.datesRow}>
           {[8, 9, 10, 11, 12, 13, 14].map((date, index) => (
             <Text key={index} style={styles.dateText}>
               {date}
@@ -43,17 +47,51 @@ export const HomeScreen = () => {
 
       {/* Calorie Tracker */}
       <View style={styles.calorieTracker}>
-        <Text style={styles.calorieText}>Cal</Text>
-        <Text style={styles.calorieCount}>0 / 1500</Text>
+        <View style={styles.calorieCircle}>
+          <Text style={styles.calorieText}>Cal</Text>
+          <Text style={styles.calorieCount}>0 / 1500</Text>
+        </View>
       </View>
 
       {/* Meal Sections */}
       <View style={styles.mealSections}>
-        {['Breakfast', 'Before exercise', 'Snack', 'Lunch', 'After exercise', 'Dinner'].map((meal, index) => (
-          <View key={index} style={styles.mealCard}>
-            <Text style={styles.mealText}>{meal}</Text>
+        {/* First Column */}
+        <View style={styles.column}>
+          <View style={styles.mealCard}>
+            <View style={styles.cardHeader}>
+              <Text style={styles.cardHeaderText}>Breakfast</Text>
+            </View>
           </View>
-        ))}
+          <View style={styles.mealCard}>
+            <View style={styles.cardHeader}>
+              <Text style={styles.cardHeaderText}>Lunch</Text>
+            </View>
+          </View>
+          <View style={styles.mealCard}>
+            <View style={styles.cardHeader}>
+              <Text style={styles.cardHeaderText}>Before Workout</Text>
+            </View>
+          </View>
+        </View>
+
+        {/* Second Column */}
+        <View style={styles.column}>
+          <View style={styles.mealCard}>
+            <View style={styles.cardHeader}>
+              <Text style={styles.cardHeaderText}>Snack</Text>
+            </View>
+          </View>
+          <View style={styles.mealCard}>
+            <View style={styles.cardHeader}>
+              <Text style={styles.cardHeaderText}>Dinner</Text>
+            </View>
+          </View>
+          <View style={styles.mealCard}>
+            <View style={styles.cardHeader}>
+              <Text style={styles.cardHeaderText}>After Workout</Text>
+            </View>
+          </View>
+        </View>
       </View>
     </View>
   );
@@ -69,17 +107,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 10,
   },
   title: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#002B5B',
+    backgroundColor: '#002B5B',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 5,
+    color: 'white',
   },
   headerIcons: {
     flexDirection: 'row',
   },
-  icon: {
+  iconText: {
+    fontSize: 22,
+    color: 'black',
     marginLeft: 10,
   },
   calendar: {
@@ -88,53 +133,76 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 20,
   },
-  dayText: {
-    color: 'white',
-    fontSize: 14,
-    textAlign: 'center',
+  daysRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     marginBottom: 5,
   },
-  dateRow: {
+  dayText: {
+    color: 'white',
+    fontSize: 10,
+    textAlign: 'center',
+    flex: 1,
+  },
+  datesRow: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginTop: 10,
+    justifyContent: 'space-between',
+    marginTop: 5,
   },
   dateText: {
     color: 'white',
-    fontSize: 14,
+    fontSize: 12,
     textAlign: 'center',
+    flex: 1,
   },
   calorieTracker: {
     alignItems: 'center',
     marginBottom: 20,
   },
+  calorieCircle: {
+    width: 130, // تقليل الحجم
+    height: 130, // تقليل الحجم
+    borderRadius: 65,
+    borderWidth: 4,
+    borderColor: '#B0C4DE',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   calorieText: {
-    fontSize: 20,
+    fontSize: 16,
     color: '#B0C4DE',
   },
   calorieCount: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#002B5B',
   },
   mealSections: {
-    flex: 1,
     flexDirection: 'row',
-    flexWrap: 'wrap',
     justifyContent: 'space-between',
+    paddingHorizontal: 10, // إضافة مساحة بين الأعمدة
+  },
+  column: {
+    flex: 1,
   },
   mealCard: {
-    width: '30%',
-    height: 100,
+    height: 90, // تصغير المربعات
     backgroundColor: '#E8F0F2',
+    borderRadius: 10,
+    marginBottom: 15, // فراغ أكبر بين المربعات
+    marginHorizontal: 5, // فراغ أفقي صغير بين الأعمدة
+  },
+  cardHeader: {
+    backgroundColor: '#002B5B',
+    height: 25, // تصغير ارتفاع الهيدر
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 10,
-    marginBottom: 10,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
   },
-  mealText: {
-    fontSize: 14,
-    color: '#002B5B',
-    textAlign: 'center',
+  cardHeaderText: {
+    color: 'white',
+    fontSize: 12,
+    fontWeight: 'bold',
   },
 });

@@ -1,9 +1,9 @@
-import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { LoginScreen } from './LoginScreen';
-import { HomeDrawer } from './HomeDrawer';
 import { SignUpScreen } from './SignUpScreen';
+import { HomeDrawer } from './HomeDrawer';
 
 const Stack = createStackNavigator();
 
