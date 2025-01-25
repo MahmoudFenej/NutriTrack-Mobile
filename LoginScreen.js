@@ -6,14 +6,29 @@ export function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
-    // Mock successful login
-    if (email === 'test' && password === '1234') {
+  const headers = {"content-type": "application/json"};
+
+async function handleLogin() {
+  try {
+    const response = await fetch("http://localhost:5000/login", {
+      headers,
+      method: "POST",
+      body: JSON.stringify({ username: email, password }),
+    });
+
+    const responseData = await response.json();
+
+    if (responseData.message === "login successfully") {
       navigation.navigate('HomeDrawer');
     } else {
-      alert('Invalid credentials');
+      alert(responseData.message);
     }
-  };
+  } catch (error) {
+    console.error('Error logging in:', error);
+    alert("An error occurred during login.");
+  }
+}
+
 
   return (
     <View style={styles.container}>

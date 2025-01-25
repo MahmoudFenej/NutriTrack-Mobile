@@ -1,8 +1,43 @@
 // ملف: NutriTrack_Mobile/HomeScreen.js
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
+
 export const HomeScreen = () => {
+
+  const [data, setData] = useState();
+  const [setSelectedDay, selectedDay] = useState(1)
+  const [dayObject, setDayObject] = useState({})
+
+  const headers = {"content-type": "application/json"};
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/login", {
+        headers,
+        method: "GET", // No body needed for GET requests
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const result = await response.json();
+      setData(result?.length > 0 ?  result[0] : []);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  useEffect(()=>{
+    const allDays = data.Days
+    setDayObject(allDays[selectedDay])
+  },[selectedDay])
+
+
   return (
     <View style={styles.container}>
       {/* Header */}
@@ -11,9 +46,6 @@ export const HomeScreen = () => {
         <View style={styles.headerIcons}>
           <TouchableOpacity>
             <Text style={styles.iconText}>📅</Text> {/* Calendar Icon */}
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Text style={styles.iconText}>⚙️</Text> {/* Settings Icon */}
           </TouchableOpacity>
         </View>
       </View>
@@ -31,14 +63,18 @@ export const HomeScreen = () => {
         {/* Dates */}
         <View style={styles.datesRow}>
           {[1, 2, 3, 4, 5, 6, 7].map((date, index) => (
-            <Text key={index} style={styles.dateText}>
+            <Text key={index} style={styles.dateText} onPress={(()=>{
+              setSelectedDay(date)
+            })}>
               {date}
             </Text>
           ))}
         </View>
         <View style={styles.datesRow}>
           {[8, 9, 10, 11, 12, 13, 14].map((date, index) => (
-            <Text key={index} style={styles.dateText}>
+            <Text key={index} style={styles.dateText} onPress={(()=>{
+              setSelectedDay(date)
+            })}>
               {date}
             </Text>
           ))}
@@ -49,50 +85,52 @@ export const HomeScreen = () => {
       <View style={styles.calorieTracker}>
         <View style={styles.calorieCircle}>
           <Text style={styles.calorieText}>Cal</Text>
-          <Text style={styles.calorieCount}>0 / 1500</Text>
+          <Text style={styles.calorieCount}>{dayObject.total_calories}</Text>
         </View>
       </View>
 
       {/* Meal Sections */}
       <View style={styles.mealSections}>
-        {/* First Column */}
         <View style={styles.column}>
-          <View style={styles.mealCard}>
-            <View style={styles.cardHeader}>
-              <Text style={styles.cardHeaderText}>Breakfast</Text>
-            </View>
-          </View>
-          <View style={styles.mealCard}>
-            <View style={styles.cardHeader}>
-              <Text style={styles.cardHeaderText}>Lunch</Text>
-            </View>
-          </View>
-          <View style={styles.mealCard}>
-            <View style={styles.cardHeader}>
-              <Text style={styles.cardHeaderText}>Before Workout</Text>
-            </View>
-          </View>
+          {
+            dayObject.meals.slice(0, 3).map((e,index)=>{
+              return (<View key={index} style={styles.mealCard}>
+              <View style={styles.cardHeader} >
+                <Text style={styles.cardHeaderText}>{e.category}</Text>
+
+                <Text style={styles.cardHeaderText}>{e.meal.map(e=>e.details.name).join("\n")}</Text>
+
+              </View>
+
+
+            </View>)
+
+            })
+          }
         </View>
+
 
         {/* Second Column */}
         <View style={styles.column}>
-          <View style={styles.mealCard}>
-            <View style={styles.cardHeader}>
-              <Text style={styles.cardHeaderText}>Snack</Text>
-            </View>
-          </View>
-          <View style={styles.mealCard}>
-            <View style={styles.cardHeader}>
-              <Text style={styles.cardHeaderText}>Dinner</Text>
-            </View>
-          </View>
-          <View style={styles.mealCard}>
-            <View style={styles.cardHeader}>
-              <Text style={styles.cardHeaderText}>After Workout</Text>
-            </View>
-          </View>
-        </View>
+        {
+            dayObject.meals.slice(-3).map((e,index)=>{
+              return (<View key={index} style={styles.mealCard}>
+              <View style={styles.cardHeader}>
+                <Text style={styles.cardHeaderText}>{e.category}</Text>
+
+                <Text style={styles.cardHeaderText}>{e.meal.map(e=>e.details.name).join("\n")}</Text>
+
+
+
+              </View>
+            </View>)
+
+            })
+          }
       </View>
+
+    </View>
+
     </View>
   );
 };
@@ -112,7 +150,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#002B5B',
+    // color: '#002B5B',
     backgroundColor: '#002B5B',
     paddingHorizontal: 10,
     paddingVertical: 5,

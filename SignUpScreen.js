@@ -14,15 +14,45 @@ export function SignUpScreen({ navigation }) {
   const [weight, setWeight] = useState('');
   const [height, setHeight] = useState('');
 
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     // تحقق من أن جميع الحقول تم ملؤها
     if (!username || !password || !firstName || !lastName || !email || !age || !weight || !height || !goal) {
       Alert.alert('Error', 'Please fill in all the fields before proceeding.');
       return; // إذا كانت الحقول فارغة، لا يتم التنقل إلى LoginScreen
     }
 
-    // إذا كانت جميع الحقول مملوءة، الانتقال إلى شاشة Login
-    navigation.navigate('Login');
+    const headers = {"content-type": "application/json"};
+
+    try {
+      const response = await fetch("http://localhost:5000/signup", {
+        headers,
+        method: "POST",
+        body: JSON.stringify({
+          username,
+          first_name:firstName,
+          last_name:lastName,
+          email,
+          password,
+          age,
+          gender,
+          weight,
+          height,
+          goal
+        })
+      });
+      
+      const responseData = await response.json();
+  
+      if (responseData.message === "user created successfly") {
+        navigation.navigate('Login');
+      } else {
+        alert(responseData.message);
+      }
+    } catch (error) {
+      console.error('Error logging in:', error);
+      alert("An error occurred during login.");
+    }
+
   };
 
   return (
