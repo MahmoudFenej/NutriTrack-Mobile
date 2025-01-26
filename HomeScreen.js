@@ -6,14 +6,14 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 export const HomeScreen = () => {
 
   const [data, setData] = useState();
-  const [setSelectedDay, selectedDay] = useState(1)
+  const [selectedDay, setSelectedDay] = useState(1);
   const [dayObject, setDayObject] = useState({})
 
   const headers = {"content-type": "application/json"};
 
   const fetchData = async () => {
     try {
-      const response = await fetch("http://localhost:5000/login", {
+      const response = await fetch("http://192.168.1.43:5000/plan", {
         headers,
         method: "GET", // No body needed for GET requests
       });
@@ -23,7 +23,12 @@ export const HomeScreen = () => {
       }
 
       const result = await response.json();
-      setData(result?.length > 0 ?  result[0] : []);
+      const data = result?.plan?.length > 0 ?  result?.plan[0] : []
+      const allDays = data?.Days
+
+      setData(data);
+      setDayObject(allDays?.length > 0 ? allDays[selectedDay] : {})
+
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -33,9 +38,10 @@ export const HomeScreen = () => {
   }, []);
 
   useEffect(()=>{
-    const allDays = data.Days
-    setDayObject(allDays[selectedDay])
-  },[selectedDay])
+    const allDays = data?.Days
+    const dayObject = allDays?.length > 0 ? allDays[selectedDay] : {}
+    setDayObject(dayObject)
+  },[selectedDay, data])
 
 
   return (
@@ -63,18 +69,18 @@ export const HomeScreen = () => {
         {/* Dates */}
         <View style={styles.datesRow}>
           {[1, 2, 3, 4, 5, 6, 7].map((date, index) => (
-            <Text key={index} style={styles.dateText} onPress={(()=>{
+            <Text key={index} style={styles.dateText} onPress={()=>{
               setSelectedDay(date)
-            })}>
+            }}>
               {date}
             </Text>
           ))}
         </View>
         <View style={styles.datesRow}>
           {[8, 9, 10, 11, 12, 13, 14].map((date, index) => (
-            <Text key={index} style={styles.dateText} onPress={(()=>{
+            <Text key={index} style={styles.dateText} onPress={()=>{
               setSelectedDay(date)
-            })}>
+            }}>
               {date}
             </Text>
           ))}
@@ -93,15 +99,13 @@ export const HomeScreen = () => {
       <View style={styles.mealSections}>
         <View style={styles.column}>
           {
-            dayObject.meals.slice(0, 3).map((e,index)=>{
+            (dayObject?.meals?.slice(0, 3)||[]).map((e,index)=>{
               return (<View key={index} style={styles.mealCard}>
               <View style={styles.cardHeader} >
                 <Text style={styles.cardHeaderText}>{e.category}</Text>
-
-                <Text style={styles.cardHeaderText}>{e.meal.map(e=>e.details.name).join("\n")}</Text>
-
               </View>
 
+              <Text>{e.meal.map(e=>e.details.name).join("\n")}</Text>
 
             </View>)
 
@@ -113,16 +117,12 @@ export const HomeScreen = () => {
         {/* Second Column */}
         <View style={styles.column}>
         {
-            dayObject.meals.slice(-3).map((e,index)=>{
+            (dayObject?.meals?.slice(-3)||[]).map((e,index)=>{
               return (<View key={index} style={styles.mealCard}>
               <View style={styles.cardHeader}>
                 <Text style={styles.cardHeaderText}>{e.category}</Text>
-
-                <Text style={styles.cardHeaderText}>{e.meal.map(e=>e.details.name).join("\n")}</Text>
-
-
-
               </View>
+              <Text>{e.meal.map(e=>e.details.name).join("\n")}</Text>
             </View>)
 
             })

@@ -10,7 +10,7 @@ export function LoginScreen({ navigation }) {
 
 async function handleLogin() {
   try {
-    const response = await fetch("http://localhost:5000/login", {
+    const response = await fetch("http://192.168.1.43:5000/login", {
       headers,
       method: "POST",
       body: JSON.stringify({ username: email, password }),
