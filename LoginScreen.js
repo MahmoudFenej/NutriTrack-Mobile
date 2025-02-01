@@ -1,59 +1,85 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, TextInput, View, TouchableOpacity, Image, Alert } from 'react-native';
 
 export function LoginScreen({ navigation }) {
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const headers = {"content-type": "application/json"};
+  const headers = { "Content-Type": "application/json" };
 
-async function handleLogin() {
-  try {
-    const response = await fetch("http://192.168.1.43:5000/login", {
-      headers,
-      method: "POST",
-      body: JSON.stringify({ username: email, password }),
-    });
-
-    const responseData = await response.json();
-
-    if (responseData.message === "login successfully") {
-      navigation.navigate('HomeDrawer');
-    } else {
-      alert(responseData.message);
+  async function handleLogin() {
+    if (!email || !password) {
+      Alert.alert("Error", "Please enter both username and password.");
+      return;
     }
-  } catch (error) {
-    console.error('Error logging in:', error);
-    alert("An error occurred during login.");
-  }
-}
 
+    try {
+      // الاتصال بالسيرفر
+      const response = await fetch("http://localhost:5000/login", {
+        headers,
+        method: "POST",
+        body: JSON.stringify({ username: "mahmoud", password: "mahmoud" }), // تعديل هنا
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        Alert.alert("Error", errorData.message || "Something went wrong.");
+        return;
+      }
+
+      const responseData = await response.json();
+
+      if (responseData.message === "login successfully") {
+        navigation.navigate('HomeDrawer'); // الانتقال إلى الشاشة الرئيسية
+      } else {
+        Alert.alert("Error", responseData.message || "Login failed.");
+      }
+    } catch (error) {
+      console.error("Error logging in:", error);
+      Alert.alert("Error", "An error occurred during login. Please try again.");
+    }
+  }
 
   return (
     <View style={styles.container}>
-      {/* الشعار */}
+      {/* Logo Section */}
       <View style={styles.logoContainer}>
         <View style={styles.logoCircle}>
-          {/* يمكن إضافة صورة داخل الدائرة */}
+          {/* Logo */}
           <Image
             style={styles.logo}
-            source={{ uri: 'https://your-logo-url.com/logo.png' }} // ضع رابط الصورة هنا
+            source={{ uri: 'https://your-logo-url.com/logo.png' }} // استبدل بالرابط الخاص بشعارك
           />
         </View>
       </View>
 
-      {/* الحقول النصية */}
-      <TextInput style={styles.input} placeholder="Username" placeholderTextColor="#ccc" onChangeText={setEmail} />
-      <TextInput style={styles.input} placeholder="Password" placeholderTextColor="#ccc" secureTextEntry={true} onChangeText={setPassword}/>
+      {/* إدخال اسم المستخدم وكلمة المرور */}
+      <TextInput
+        style={styles.input}
+        placeholder="Username"
+        placeholderTextColor="#ccc"
+        onChangeText={setEmail}
+        value={email}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Password"
+        placeholderTextColor="#ccc"
+        secureTextEntry
+        onChangeText={setPassword}
+        value={password}
+      />
 
-      {/* الأزرار */}
-      <TouchableOpacity style={[styles.button, styles.loginButton]} onPress={handleLogin} >
+      {/* زر تسجيل الدخول */}
+      <TouchableOpacity style={[styles.button, styles.loginButton]} onPress={handleLogin}>
         <Text style={styles.buttonText}>LOG IN</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={[styles.button, styles.signUpButton]} onPress={()=>{
-        navigation.navigate("Signup")
-      }}>
+
+      {/* زر الانتقال إلى شاشة التسجيل */}
+      <TouchableOpacity
+        style={[styles.button, styles.signUpButton]}
+        onPress={() => navigation.navigate("Signup")}
+      >
         <Text style={styles.buttonText}>SIGN UP</Text>
       </TouchableOpacity>
     </View>
@@ -63,9 +89,10 @@ async function handleLogin() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#001f3f', // خلفية زرقاء غامقة
+    backgroundColor: '#001f3f', // خلفية زرقاء داكنة
     alignItems: 'center',
     justifyContent: 'center',
+    padding: 20,
   },
   logoContainer: {
     marginBottom: 50,
@@ -83,9 +110,9 @@ const styles = StyleSheet.create({
     height: 80, // حجم الشعار
   },
   input: {
-    width: '80%',
+    width: '100%',
     height: 50,
-    backgroundColor: '#003366', // لون الحقول
+    backgroundColor: '#003366', // لون خلفية المدخل
     borderRadius: 10,
     paddingHorizontal: 15,
     color: 'white',
@@ -93,7 +120,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   button: {
-    width: '80%',
+    width: '100%',
     height: 50,
     borderRadius: 10,
     alignItems: 'center',
@@ -101,10 +128,10 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   loginButton: {
-    backgroundColor: '#28a745', // لون أخضر
+    backgroundColor: '#28a745', // زر تسجيل الدخول باللون الأخضر
   },
   signUpButton: {
-    backgroundColor: '#ff851b', // لون برتقالي
+    backgroundColor: '#ff851b', // زر التسجيل باللون البرتقالي
   },
   buttonText: {
     color: 'white',
