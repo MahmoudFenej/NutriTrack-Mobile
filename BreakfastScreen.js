@@ -1,9 +1,8 @@
-// BreakfastScreen.js
 
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 
-const BreakfastScreen = () => {
+export const BreakfastScreen = () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.header}>
@@ -104,5 +103,3 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
 });
-
-export default BreakfastScreen;

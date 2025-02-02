@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 
-export const HomeScreen = () => {
+export const HomeScreen = ({ navigation }) => {
 
   const [data, setData] = useState();
   const [selectedDay, setSelectedDay] = useState(1);
@@ -13,7 +13,7 @@ export const HomeScreen = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("http://192.168.1.43:5000/plan", {
+      const response = await fetch("http://192.168.1.35:5000/plan", {
         headers,
         method: "GET", // No body needed for GET requests
       });
@@ -100,14 +100,19 @@ export const HomeScreen = () => {
         <View style={styles.column}>
           {
             (dayObject?.meals?.slice(0, 3)||[]).map((e,index)=>{
-              return (<View key={index} style={styles.mealCard}>
-              <View style={styles.cardHeader} >
-                <Text style={styles.cardHeaderText}>{e.category}</Text>
-              </View>
+              return (
+                <View key={index} style={styles.mealCard}>
+                  <TouchableOpacity onPress={()=>{
+                    navigation.navigate('Breakfast');
+                  }}>
+                    <View style={styles.cardHeader}>
+                      <Text style={styles.cardHeaderText}>{e.category}</Text>
+                    </View>
+                    <Text>{e.meal.map(e => e.details.name).join("\n")}</Text>
 
-              <Text>{e.meal.map(e=>e.details.name).join("\n")}</Text>
-
-            </View>)
+                  </TouchableOpacity>
+                </View>
+            )
 
             })
           }
@@ -117,13 +122,21 @@ export const HomeScreen = () => {
         {/* Second Column */}
         <View style={styles.column}>
         {
-            (dayObject?.meals?.slice(-3)||[]).map((e,index)=>{
-              return (<View key={index} style={styles.mealCard}>
+          (dayObject?.meals?.slice(-3)||[]).map((e,index)=>{
+            return (
+              
+              <View key={index} style={styles.mealCard}>
+                
+                <TouchableOpacity onPress={()=>{ navigation.navigate('Breakfast')}}> 
               <View style={styles.cardHeader}>
                 <Text style={styles.cardHeaderText}>{e.category}</Text>
               </View>
               <Text>{e.meal.map(e=>e.details.name).join("\n")}</Text>
-            </View>)
+
+              </TouchableOpacity>
+            </View>
+            
+          )
 
             })
           }
