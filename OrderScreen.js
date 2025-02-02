@@ -1,37 +1,83 @@
-// order-screen.js
+// OrderScreen.js
+
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
+
+const MenuItem = ({ imageSource, title, calories, price }) => (
+  <View style={styles.menuItem}>
+    <Image source={imageSource} style={styles.menuItemImage} />
+    <Text style={styles.menuItemTitle}>{title}</Text>
+    <Text style={styles.menuItemCalories}>{calories} calories</Text>
+    <Text style={styles.menuItemPrice}>${price}</Text>
+  </View>
+);
 
 const OrderScreen = () => {
+  const menuItems = [
+    {
+      imageSource: require('./assets/chicken_salad.jpg'),
+      title: 'Grilled Chicken Salad',
+      calories: 350,
+      price: 7,
+    },
+    {
+      imageSource: require('./assets/beef_sandwich.jpg'),
+      title: 'Grilled Beef Sandwich',
+      calories: 500,
+      price: 8,
+    },
+    {
+      imageSource: require('./assets/chicken_sandwich.jpg'),
+      title: 'Grilled Chicken Sandwich',
+      calories: 400,
+      price: 7,
+    },
+    {
+      imageSource: require('./assets/vegetable_soup.jpg'),
+      title: 'Vegetable Soup',
+      calories: 250,
+      price: 3,
+    },
+    {
+      imageSource: require('./assets/lentil_soup.jpg'),
+      title: 'Lentil Soup',
+      calories: 250,
+      price: 3,
+    },
+    {
+      imageSource: require('./assets/grilled_fish.jpg'),
+      title: 'Grilled Fish with Vegetables',
+      calories: 400,
+      price: 7,
+    },
+    {
+      imageSource: require('./assets/avocado_sandwich.jpg'),
+      title: 'Avocado Tomato Sandwich',
+      calories: 400,
+      price: 5,
+    },
+    {
+      imageSource: require('./assets/grilled_steak.jpg'),
+      title: 'Grilled Steak Sandwich',
+      calories: 400,
+      price: 7,
+    },
+  ];
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.header}>NutriTrack</Text>
-      <Text style={styles.title}>Breakfast</Text>
-
-      <View style={styles.section}>
-        <Text style={styles.sectionHeader}>Oatmeal with Fruits and Nuts</Text>
-        <Text style={styles.sectionContent}>Ingredients:</Text>
-        <Text style={styles.sectionContent}>- ½ cup of oats</Text>
-        <Text style={styles.sectionContent}>- 1 cup of water or plant-based milk</Text>
-        <Text style={styles.sectionContent}>- 1 teaspoon of honey (optional)</Text>
-        <Text style={styles.sectionContent}>- ½ banana or apple, chopped</Text>
-        <Text style={styles.sectionContent}>- A handful of nuts (such as almonds or walnuts)</Text>
-        <Text style={styles.sectionContent}>- A pinch of cinnamon (optional)</Text>
-      </View>
-
-      <View style={styles.section}>
-        <Text style={styles.sectionHeader}>Preparation:</Text>
-        <Text style={styles.sectionContent}>1. Boil the water or milk in a pot.</Text>
-        <Text style={styles.sectionContent}>2. Add the oats and cook over medium heat for 5-7 minutes until soft.</Text>
-        <Text style={styles.sectionContent}>3. Add honey and cinnamon (if using) and stir well.</Text>
-        <Text style={styles.sectionContent}>4. Serve the oatmeal in a bowl and top with fruits and nuts.</Text>
-      </View>
-
-      <View style={styles.section}>
-        <Text style={styles.sectionHeader}>Benefits:</Text>
-        <Text style={styles.sectionContent}>- Oats are high in fiber, helping to promote a feeling of fullness.</Text>
-        <Text style={styles.sectionContent}>- Fruits add vitamins and minerals.</Text>
-        <Text style={styles.sectionContent}>- Nuts provide healthy fats.</Text>
+      <Text style={styles.header}>Order Your Food</Text>
+      <Text style={styles.subHeader}>MENU</Text>
+      <View style={styles.menuContainer}>
+        {menuItems.map((item, index) => (
+          <MenuItem
+            key={index}
+            imageSource={item.imageSource}
+            title={item.title}
+            calories={item.calories}
+            price={item.price}
+          />
+        ))}
       </View>
     </ScrollView>
   );
@@ -40,41 +86,65 @@ const OrderScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: '#e9f5ff',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
+    backgroundColor: '#0c2340',
     padding: 20,
+    alignItems: 'center',
   },
   header: {
-    backgroundColor: '#0077b6',
-    color: 'white',
-    padding: 10,
-    borderRadius: 8,
-    fontSize: 24,
+    fontSize: 32,
     fontWeight: 'bold',
+    color: 'white',
     textAlign: 'center',
-    width: '100%',
+    marginBottom: 10,
   },
-  title: {
-    marginVertical: 20,
+  subHeader: {
+    fontSize: 24,
+    color: 'yellow',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  menuContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    gap: 20,
+  },
+  menuItem: {
+    backgroundColor: 'white',
+    borderRadius: 10,
+    width: 220,
+    padding: 10,
+    alignItems: 'center',
+    marginBottom: 20,
+    shadowColor: '#fff',
+    shadowOffset: { width: 2, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
+  },
+  menuItemImage: {
+    width: '100%',
+    height: 150,
+    borderRadius: 10,
+  },
+  menuItemTitle: {
+    marginTop: 10,
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#0077b6',
+    color: 'black',
+    textAlign: 'center',
   },
-  section: {
-    alignItems: 'flex-start',
-    marginVertical: 10,
-    width: '100%',
+  menuItemCalories: {
+    marginTop: 5,
+    fontSize: 14,
+    color: 'gray',
+    textAlign: 'center',
   },
-  sectionHeader: {
-    color: '#0077b6',
-    marginBottom: 5,
+  menuItemPrice: {
+    marginTop: 5,
     fontSize: 16,
     fontWeight: 'bold',
-  },
-  sectionContent: {
-    marginBottom: 5,
-    fontSize: 14,
+    color: '#d9534f',
+    textAlign: 'center',
   },
 });
 
