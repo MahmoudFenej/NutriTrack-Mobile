@@ -48,7 +48,7 @@ export function LoginScreen({ navigation }) {
           {/* Logo */}
           <Image
             style={styles.logo}
-            source={{ uri: 'https://postimg.cc/HJWFNrz6' }} // استبدل بالرابط الخاص بشعارك
+            source={{ uri: }} // استبدل بالرابط الخاص بشعارك
           />
         </View>
       </View>

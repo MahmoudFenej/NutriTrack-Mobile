@@ -1,25 +1,26 @@
 import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { HomeScreen } from './HomeScreen';
-import { AboutScreen } from './AboutScreen';
-import { OrderScreen } from './OrderScreen';
+
+// استيراد جميع الشاشات
+import NutriTrackScreen from './NutriTrackScreen';
+import HomeScreen from './HomeScreen';
+import OrderScreen from './OrderScreen';
+import AboutScreen from './AboutScreen';
+import BreakfastScreen from './BreakfastScreen'; // ✅ إضافة شاشة الفطور
 
 const Drawer = createDrawerNavigator();
 
-
-export function HomeDrawer({ navigation }) {
+export default function App() {
   return (
-    <Drawer.Navigator initialRouteName="Home">
-      <Drawer.Screen name="Home" component={HomeScreen} />
-      <Drawer.Screen name="About Us" component={AboutScreen} />
-      <Drawer.Screen name="Order Food" component={OrderScreen} />
-      <Drawer.Screen
-        name="Logout"
-        component={() => {
-          navigation.navigate('Login');
-          return null;
-        }}
-      />
-    </Drawer.Navigator>
+    <NavigationContainer>
+      <Drawer.Navigator initialRouteName="NutriTrack">
+        <Drawer.Screen name="NutriTrack" component={NutriTrackScreen} />
+        <Drawer.Screen name="Home" component={HomeScreen} />
+        <Drawer.Screen name="Orders" component={OrderScreen} />
+        <Drawer.Screen name="Breakfast" component={BreakfastScreen} />  {/* ✅ إضافة شاشة الفطور */}
+        <Drawer.Screen name="About" component={AboutScreen} />
+      </Drawer.Navigator>
+    </NavigationContainer>
   );
 }
