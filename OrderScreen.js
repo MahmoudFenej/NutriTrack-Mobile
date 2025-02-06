@@ -5,7 +5,7 @@ import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
 
 const MenuItem = ({ imageSource, title, calories, price }) => (
   <View style={styles.menuItem}>
-    <Image source={imageSource} style={styles.menuItemImage} />
+    <Image source={{ uri: imageSource }} style={styles.menuItemImage} />
     <Text style={styles.menuItemTitle}>{title}</Text>
     <Text style={styles.menuItemCalories}>{calories} calories</Text>
     <Text style={styles.menuItemPrice}>${price}</Text>
@@ -15,49 +15,49 @@ const MenuItem = ({ imageSource, title, calories, price }) => (
 export const OrderScreen = () => {
   const menuItems = [
     {
-    //   imageSource: require('./assets/chicken_salad.jpg'),
+      imageSource: 'https://postimg.cc/56x5L82K',  // رابط الصورة
       title: 'Grilled Chicken Salad',
       calories: 350,
       price: 7,
     },
     {
-    //   imageSource: require('./assets/beef_sandwich.jpg'),
+      imageSource: 'https://postimg.cc/0bcYfr6k',  // رابط الصورة
       title: 'Grilled Beef Sandwich',
       calories: 500,
       price: 8,
     },
     {
-    //   imageSource: require('./assets/chicken_sandwich.jpg'),
+      imageSource: 'https://postimg.cc/wR963f2V',  // رابط الصورة
       title: 'Grilled Chicken Sandwich',
       calories: 400,
       price: 7,
     },
     {
-    //   imageSource: require('./assets/vegetable_soup.jpg'),
+      imageSource: 'https://postimg.cc/Rq1QWg4n',  // رابط الصورة
       title: 'Vegetable Soup',
       calories: 250,
       price: 3,
     },
     {
-    //   imageSource: require('./assets/lentil_soup.jpg'),
+      imageSource: 'https://postimg.cc/Rq1QWg4n',  // رابط الصورة
       title: 'Lentil Soup',
       calories: 250,
       price: 3,
     },
     {
-    //   imageSource: require('./assets/grilled_fish.jpg'),
+      imageSource: 'https://postimg.cc/8fwTvRnV',  // رابط الصورة
       title: 'Grilled Fish with Vegetables',
       calories: 400,
       price: 7,
     },
     {
-    //   imageSource: require('./assets/avocado_sandwich.jpg'),
+      imageSource: 'https://postimg.cc/56x5L82K',  // رابط الصورة
       title: 'Avocado Tomato Sandwich',
       calories: 400,
       price: 5,
     },
     {
-    //   imageSource: require('./assets/grilled_steak.jpg'),
+      imageSource: 'https://postimg.cc/wR963f2V',  // رابط الصورة
       title: 'Grilled Steak Sandwich',
       calories: 400,
       price: 7,

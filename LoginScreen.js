@@ -15,7 +15,7 @@ export function LoginScreen({ navigation }) {
 
     try {
       // الاتصال بالسيرفر
-      const response = await fetch("http://192.168.1.35:5000/login", {
+      const response = await fetch("http://192.168.1.12/login", {
         headers,
         method: "POST",
         body: JSON.stringify({ username: "mahmoud", password: "mahmoud" }), // تعديل هنا
@@ -48,7 +48,7 @@ export function LoginScreen({ navigation }) {
           {/* Logo */}
           <Image
             style={styles.logo}
-            source={{ uri: 'https://your-logo-url.com/logo.png' }} // استبدل بالرابط الخاص بشعارك
+            source={{ uri: 'https://postimg.cc/HJWFNrz6' }} // استبدل بالرابط الخاص بشعارك
           />
         </View>
       </View>
