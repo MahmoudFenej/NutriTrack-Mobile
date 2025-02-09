@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Button } from "react-native";
 
-const NutriTrackScreen = () => {
+export const NutriTrackScreen = () => {
   const [age, setAge] = useState("");
   const [weight, setWeight] = useState("");
   const [height, setHeight] = useState("");
   const [gender, setGender] = useState("Female");
   const [goal, setGoal] = useState("weight loss");
   const [activityLevel, setActivityLevel] = useState("Moderate");
-  const [hasAllergies, setHasAllergies] = useState(false); 
+  const [hasAllergies, setHasAllergies] = useState(false);
   const [foodsToAvoid, setFoodsToAvoid] = useState("");
 
   const handleSubmit = () => {
@@ -134,8 +134,8 @@ const NutriTrackScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1, // This allows ScrollView to expand when necessary
-    backgroundColor: "#F8F8F8",
+    flexGrow: 1,
+    backgroundColor: "#001F3F", // خلفية اللون الأزرق الجديد
     padding: 20,
   },
   title: {
@@ -143,18 +143,19 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: 10,
+    color: "white", // تغيير اللون إلى الأبيض ليتناسب مع الخلفية الزرقاء
   },
   subtitle: {
     fontSize: 18,
     fontWeight: "bold",
-    backgroundColor: "#FFD700",
+    backgroundColor: "#FFFFFF", // خلفية باللون الأبيض
     textAlign: "center",
     padding: 10,
     borderRadius: 5,
     marginBottom: 20,
   },
   card: {
-    backgroundColor: "#4CAF50",
+    backgroundColor: "#001F3F", // اللون الأزرق الجديد
     padding: 15,
     borderRadius: 10,
     marginBottom: 10,
@@ -169,7 +170,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 10,
     borderRadius: 5,
-    flex: 1, // Ensures the input field expands to fill available space
+    flex: 1,
   },
   optionRow: {
     flexDirection: "row",
@@ -184,7 +185,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   selectedOption: {
-    backgroundColor: "#FFD700",
+    backgroundColor: "#FFFFFF", // خلفية باللون الأبيض
   },
   button: {
     backgroundColor: "#000",
@@ -199,5 +200,3 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
-
-export default NutriTrackScreen;
