@@ -51,7 +51,7 @@ export const HomeScreen = ({ navigation }) => {
         <Text style={styles.title}>NutriTrack</Text>
         <View style={styles.headerIcons}>
           <TouchableOpacity>
-            <Text style={styles.iconText}>📅</Text> {/* Calendar Icon */}
+            <Text style={styles.iconText}>📅</Text> 
           </TouchableOpacity>
         </View>
       </View>
@@ -108,7 +108,9 @@ export const HomeScreen = ({ navigation }) => {
                     <View style={styles.cardHeader}>
                       <Text style={styles.cardHeaderText}>{e.category}</Text>
                     </View>
-                    <Text>{e.meal.map(e => e.details.name).join("\n")}</Text>
+                    {e.meal.map((item, index) => (
+                      <Text key={index}>{item.details.name}</Text>
+                    ))}
 
                   </TouchableOpacity>
                 </View>
@@ -131,7 +133,9 @@ export const HomeScreen = ({ navigation }) => {
               <View style={styles.cardHeader}>
                 <Text style={styles.cardHeaderText}>{e.category}</Text>
               </View>
-              <Text>{e.meal.map(e=>e.details.name).join("\n")}</Text>
+                  {e.meal.map((item, index) => (
+                    <Text key={index}>{item.details.name}</Text>
+                  ))}
 
               </TouchableOpacity>
             </View>

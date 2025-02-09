@@ -80,51 +80,6 @@ export const NutriTrackScreen = () => {
         </View>
       </View>
 
-      <View style={styles.card}>
-        <Text style={styles.label}>Activity Level</Text>
-        <View style={styles.optionRow}>
-          {["Active", "Moderate", "Sedentary"].map((item) => (
-            <TouchableOpacity
-              key={item}
-              style={[styles.option, activityLevel === item && styles.selectedOption]}
-              onPress={() => setActivityLevel(item)}
-            >
-              <Text>{item}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-      </View>
-
-      <View style={styles.card}>
-        <Text style={styles.label}>Do you have any food allergies?</Text>
-        <View style={styles.optionRow}>
-          {["yes", "no"].map((item) => (
-            <TouchableOpacity
-              key={item}
-              style={[
-                styles.option,
-                (hasAllergies && item === "yes") || (!hasAllergies && item === "no")
-                  ? styles.selectedOption
-                  : null,
-              ]}
-              onPress={() => setHasAllergies(item === "yes")}
-            >
-              <Text>{item}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-      </View>
-
-      {hasAllergies && (
-        <View style={styles.card}>
-          <Text style={styles.label}>Specify which foods to avoid</Text>
-          <TextInput
-            style={styles.input}
-            value={foodsToAvoid}
-            onChangeText={setFoodsToAvoid}
-          />
-        </View>
-      )}
 
       {/* Submit Button */}
       <Button title="Submit" onPress={handleSubmit} />
