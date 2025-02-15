@@ -1,36 +1,46 @@
+import { useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 export const HomeScreen = ({ navigation }) => {
 
+  const route = useRoute();
+  const { user } = route.params || {};
+
   const [data, setData] = useState();
   const [selectedDay, setSelectedDay] = useState(1);
   const [dayObject, setDayObject] = useState({});
 
-  const headers = { "content-type": "application/json" };
 
   const fetchData = async () => {
     try {
-      const response = await fetch("http://192.168.1.13:5000/plan", {
-        headers,
-        method: "GET", // No body needed for GET requests
+      const response = await fetch("http://192.168.1.4:5000/plan", {
+        method: "POST", // Change method to POST
+        headers: {
+          "Content-Type": "application/json", // Ensure the server expects JSON
+        },
+        body: JSON.stringify({
+          user_id: user?._id, 
+          goal: user?.goal,
+        }),
       });
-
+  
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-
+  
       const result = await response.json();
       const data = result?.plan?.length > 0 ? result?.plan[0] : [];
       const allDays = data?.Days;
-
+  
       setData(data);
       setDayObject(allDays?.length > 0 ? allDays[selectedDay] : {});
-
+  
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
+  
 
   useEffect(() => {
     fetchData();
@@ -98,7 +108,7 @@ export const HomeScreen = ({ navigation }) => {
                 <View style={styles.cardHeader}>
                   <Text style={styles.cardHeaderText}>{e.category}</Text>
                 </View>
-                <Text>{e.meal.map(e => e.details.name).join("\n")}</Text>
+                <Text>{e.meal.map(e => e.details?.name).join("\n")}</Text>
               </TouchableOpacity>
             </View>
           ))}
@@ -112,7 +122,7 @@ export const HomeScreen = ({ navigation }) => {
                 <View style={styles.cardHeader}>
                   <Text style={styles.cardHeaderText}>{e.category}</Text>
                 </View>
-                <Text>{e.meal.map(e => e.details.name).join("\n")}</Text>
+                <Text>{e.meal.map(e => e.details?.name).join("\n")}</Text>
               </TouchableOpacity>
             </View>
           ))}

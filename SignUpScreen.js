@@ -24,7 +24,7 @@ export function SignUpScreen({ navigation }) {
     const headers = {"content-type": "application/json"};
 
     try {
-      const response = await fetch("http://192.168.1.13:5000:signup", {
+      const response = await fetch("http://192.168.1.4:5000:signup", {
         headers,
         method: "POST",
         body: JSON.stringify({

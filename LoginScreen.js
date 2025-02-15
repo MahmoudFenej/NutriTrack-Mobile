@@ -15,7 +15,7 @@ export function LoginScreen({ navigation }) {
 
     try {
       // الاتصال بالسيرفر
-      const response = await fetch("http://192.168.1.13:5000/login", {
+      const response = await fetch("http://192.168.1.4:5000/login", {
         headers,
         method: "POST",
         body: JSON.stringify({ username: "mahmoud", password: "mahmoud" }), // تعديل هنا
@@ -29,8 +29,8 @@ export function LoginScreen({ navigation }) {
 
       const responseData = await response.json();
 
-      if (responseData.message === "login successfully") {
-        navigation.navigate('HomeDrawer'); // الانتقال إلى الشاشة الرئيسية
+      if (responseData) {
+        navigation.navigate('HomeDrawer', {user:responseData});
       } else {
         Alert.alert("Error", responseData.message || "Login failed.");
       }
