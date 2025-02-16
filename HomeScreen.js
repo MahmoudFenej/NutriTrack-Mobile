@@ -1,5 +1,5 @@
-import { useRoute } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
+import { useFocusEffect, useRoute } from '@react-navigation/native';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 export const HomeScreen = ({ navigation }) => {
@@ -20,31 +20,33 @@ export const HomeScreen = ({ navigation }) => {
           "Content-Type": "application/json", // Ensure the server expects JSON
         },
         body: JSON.stringify({
-          user_id: user?._id, 
+          user_id: user?._id,
           goal: user?.goal,
         }),
       });
-  
+
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-  
+
       const result = await response.json();
       const data = result?.plan?.length > 0 ? result?.plan[0] : [];
       const allDays = data?.Days;
-  
+
       setData(data);
       setDayObject(allDays?.length > 0 ? allDays[selectedDay] : {});
-  
+
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
-  
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchData();
+    }, [])
+  );
 
   useEffect(() => {
     const allDays = data?.Days;
@@ -95,7 +97,7 @@ export const HomeScreen = ({ navigation }) => {
       <View style={styles.calorieTracker}>
         <View style={styles.calorieCircle}>
           <Text style={styles.calorieText}>Cal</Text>
-          <Text style={styles.calorieCount}>{dayObject.total_calories}</Text>
+          <Text style={styles.calorieCount}>{dayObject?.total_calories}</Text>
         </View>
       </View>
 
@@ -104,12 +106,12 @@ export const HomeScreen = ({ navigation }) => {
         <View style={styles.column}>
           {(dayObject?.meals?.slice(0, 3) || []).map((e, index) => (
             <View key={index} style={styles.mealCard}>
-              <TouchableOpacity onPress={() => navigation.navigate('Breakfast', {meal:e.meal, category:e.category})}>
+              <TouchableOpacity onPress={() => navigation.navigate('Breakfast', { meal: e.meal, category: e.category })}>
                 <View style={styles.cardHeader}>
                   <Text style={styles.cardHeaderText}>{e.category}</Text>
                 </View>
                 <Text>{String(e.meal.map(e => e.details?.name).join("\n"))}</Text>
-                </TouchableOpacity>
+              </TouchableOpacity>
             </View>
           ))}
         </View>
@@ -118,12 +120,12 @@ export const HomeScreen = ({ navigation }) => {
         <View style={styles.column}>
           {(dayObject?.meals?.slice(-3) || []).map((e, index) => (
             <View key={index} style={styles.mealCard}>
-              <TouchableOpacity onPress={() => navigation.navigate('Breakfast', {meal:e.meal, category:e.category})}>
+              <TouchableOpacity onPress={() => navigation.navigate('Breakfast', { meal: e.meal, category: e.category })}>
                 <View style={styles.cardHeader}>
                   <Text style={styles.cardHeaderText}>{e.category}</Text>
                 </View>
                 <Text>{String(e.meal.map(e => e.details?.name).join("\n"))}</Text>
-                </TouchableOpacity>
+              </TouchableOpacity>
             </View>
           ))}
         </View>
