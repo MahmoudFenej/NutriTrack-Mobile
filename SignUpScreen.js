@@ -24,7 +24,7 @@ export function SignUpScreen({ navigation }) {
     const headers = {"content-type": "application/json"};
 
     try {
-      const response = await fetch("http://192.168.1.4:5000:signup", {
+      const response = await fetch("https://nutri-25e3e0c915ae.herokuapp.com/signup", {
         headers,
         method: "POST",
         body: JSON.stringify({

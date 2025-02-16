@@ -15,7 +15,7 @@ export function LoginScreen({ navigation }) {
 
     try {
       // الاتصال بالسيرفر
-      const response = await fetch("http://192.168.1.4:5000/login", {
+      const response = await fetch("https://nutri-25e3e0c915ae.herokuapp.com/login", {
         headers,
         method: "POST",
         body: JSON.stringify({ username: "mahmoud", password: "mahmoud" }), // تعديل هنا

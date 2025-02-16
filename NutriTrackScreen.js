@@ -1,18 +1,58 @@
+import { useRoute, useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Button } from "react-native";
+import { 
+  View, Text, TextInput, TouchableOpacity, StyleSheet, 
+  ScrollView, Button, Alert, ActivityIndicator 
+} from "react-native";
 
 export const NutriTrackScreen = () => {
+  const route = useRoute();
+  const navigation = useNavigation();
+  const { user } = route.params || {};
+
   const [age, setAge] = useState("");
   const [weight, setWeight] = useState("");
   const [height, setHeight] = useState("");
-  const [gender, setGender] = useState("Female");
+  const [gender, setGender] = useState("");
   const [goal, setGoal] = useState("weight loss");
-  const [activityLevel, setActivityLevel] = useState("Moderate");
-  const [hasAllergies, setHasAllergies] = useState(false);
-  const [foodsToAvoid, setFoodsToAvoid] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = () => {
-    alert("Form Submitted!");
+  const handleSubmit = async () => {
+    if (!age || !weight || !height || !gender || !goal || !user?._id) {
+      Alert.alert("Error", "Please fill in all the fields before proceeding.");
+      return;
+    }
+
+    setLoading(true);
+    const headers = { "content-type": "application/json" };
+
+    try {
+      const response = await fetch("https://nutri-25e3e0c915ae.herokuapp.com/generatePlan", {
+        headers,
+        method: "POST",
+        body: JSON.stringify({
+          age,
+          gender,
+          weight,
+          height,
+          goal,
+          user_id: user?._id
+        })
+      });
+
+      const responseData = await response.json();
+
+      if (responseData) {
+        navigation.navigate("HomeDrawer", { user: responseData });
+      } else {
+        Alert.alert("Error", responseData);
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Error", "An error occurred during generate plan.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -39,7 +79,9 @@ export const NutriTrackScreen = () => {
               style={[styles.option, gender === item && styles.selectedOption]}
               onPress={() => setGender(item)}
             >
-              <Text>{item}</Text>
+              <Text style={[styles.optionText, gender === item && styles.selectedOptionText]}>
+                {item}
+              </Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -68,21 +110,26 @@ export const NutriTrackScreen = () => {
       <View style={styles.card}>
         <Text style={styles.label}>Goal</Text>
         <View style={styles.optionRow}>
-          {["weight loss", "weight gain", "maintain weight"].map((item) => (
+          {["loose weight", "gain weight", "build muscles"].map((item) => (
             <TouchableOpacity
               key={item}
               style={[styles.option, goal === item && styles.selectedOption]}
               onPress={() => setGoal(item)}
             >
-              <Text>{item}</Text>
+              <Text style={[styles.optionText, goal === item && styles.selectedOptionText]}>
+                {item}
+              </Text>
             </TouchableOpacity>
           ))}
         </View>
       </View>
 
-
-      {/* Submit Button */}
-      <Button title="Submit" onPress={handleSubmit} />
+      {/* Submit Button with Loader */}
+      {loading ? (
+        <ActivityIndicator size="large" color="#FFFFFF" style={styles.loader} />
+      ) : (
+        <Button title="Submit" onPress={handleSubmit} disabled={loading} />
+      )}
     </ScrollView>
   );
 };
@@ -90,7 +137,7 @@ export const NutriTrackScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: "#001F3F", // خلفية اللون الأزرق الجديد
+    backgroundColor: "#001F3F",
     padding: 20,
   },
   title: {
@@ -98,19 +145,19 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: 10,
-    color: "white", // تغيير اللون إلى الأبيض ليتناسب مع الخلفية الزرقاء
+    color: "white",
   },
   subtitle: {
     fontSize: 18,
     fontWeight: "bold",
-    backgroundColor: "#FFFFFF", // خلفية باللون الأبيض
+    backgroundColor: "#FFFFFF",
     textAlign: "center",
     padding: 10,
     borderRadius: 5,
     marginBottom: 20,
   },
   card: {
-    backgroundColor: "#001F3F", // اللون الأزرق الجديد
+    backgroundColor: "#001F3F",
     padding: 15,
     borderRadius: 10,
     marginBottom: 10,
@@ -139,19 +186,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginHorizontal: 5,
   },
-  selectedOption: {
-    backgroundColor: "#FFFFFF", // خلفية باللون الأبيض
+  optionText: {
+    color: "#001F3F", // Default text color
   },
-  button: {
-    backgroundColor: "#000",
-    padding: 15,
-    borderRadius: 10,
-    alignItems: "center",
+  selectedOption: {
+    backgroundColor: "#FFD700", // Highlight selected option
+  },
+  selectedOptionText: {
+    fontWeight: "bold",
+    color: "#001F3F", // Ensure text remains readable
+  },
+  loader: {
     marginTop: 20,
   },
-  buttonText: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
 });
+
+export default NutriTrackScreen;

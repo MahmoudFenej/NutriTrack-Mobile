@@ -1,47 +1,45 @@
-
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { useRoute } from "@react-navigation/native";
+import React from "react";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 
 export const BreakfastScreen = () => {
+  const route = useRoute();
+  const { meal = [], category = "Breakfast" } = route.params || {};
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>NutriTrack</Text>
       </View>
-      <Text style={styles.title}>Breakfast</Text>
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Oatmeal with Fruits and Nuts</Text>
-        <Text style={styles.sectionSubtitle}>Ingredients:</Text>
-        <View style={styles.list}>
-          <Text style={styles.listItem}>• ½ cup of oats</Text>
-          <Text style={styles.listItem}>• 1 cup of water or plant-based milk</Text>
-          <Text style={styles.listItem}>• 1 teaspoon of honey (optional)</Text>
-          <Text style={styles.listItem}>• ½ banana or apple, chopped</Text>
-          <Text style={styles.listItem}>• A handful of nuts (such as almonds or walnuts)</Text>
-          <Text style={styles.listItem}>• A pinch of cinnamon (optional)</Text>
-        </View>
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Preparation:</Text>
-        <View style={styles.list}>
-          <Text style={styles.listItem}>1. Boil the water or milk in a pot.</Text>
-          <Text style={styles.listItem}>2. Add the oats and cook over medium heat for 5-7 minutes until soft.</Text>
-          <Text style={styles.listItem}>3. Add honey and cinnamon (if using) and stir well.</Text>
-          <Text style={styles.listItem}>4. Serve the oatmeal in a bowl and top with fruits and nuts.</Text>
-        </View>
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Benefits:</Text>
-        <View style={styles.list}>
-          <Text style={styles.listItem}>• Oats are high in fiber, helping to promote a feeling of fullness.</Text>
-          <Text style={styles.listItem}>• Fruits add vitamins and minerals.</Text>
-          <Text style={styles.listItem}>• Nuts provide healthy fats.</Text>
-        </View>
-      </View>
-      <View style={styles.nav}>
-        <Text style={styles.navLink}>Home</Text>
-        <Text style={styles.navLink}>Login</Text>
-      </View>
+      <Text style={styles.title}>{category}</Text>
+
+      {meal.length > 0 ? (
+        meal.map((item, index) => (
+          <View key={index} style={styles.mealCard}>
+            <Text style={styles.mealTitle}>{item.details.name || "Meal Name"}</Text>
+            <View style={styles.nutritionContainer}>
+              <View style={styles.nutritionRow}>
+                <Text style={styles.nutritionLabel}>Calories:</Text>
+                <Text style={styles.nutritionValue}>{item.details.calories || "N/A"}</Text>
+              </View>
+              <View style={styles.nutritionRow}>
+                <Text style={styles.nutritionLabel}>Carbs:</Text>
+                <Text style={styles.nutritionValue}>{item.details.carbs || "N/A"} g</Text>
+              </View>
+              <View style={styles.nutritionRow}>
+                <Text style={styles.nutritionLabel}>Fat:</Text>
+                <Text style={styles.nutritionValue}>{item.details.fat || "N/A"} g</Text>
+              </View>
+              <View style={styles.nutritionRow}>
+                <Text style={styles.nutritionLabel}>Protein:</Text>
+                <Text style={styles.nutritionValue}>{item.details.protein || "N/A"} g</Text>
+              </View>
+            </View>
+          </View>
+        ))
+      ) : (
+        <Text style={styles.noMealText}>No meal data available</Text>
+      )}
     </ScrollView>
   );
 };
@@ -49,57 +47,68 @@ export const BreakfastScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: '#e9f5ff',
-    alignItems: 'center',
+    backgroundColor: "#f4f9ff",
     padding: 20,
   },
   header: {
-    backgroundColor: '#0077b6',
-    width: '100%',
-    padding: 10,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  headerText: {
-    color: 'white',
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  title: {
-    marginVertical: 20,
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#0077b6',
-  },
-  section: {
-    width: '100%',
+    backgroundColor: "#0077b6",
+    width: "100%",
+    padding: 15,
+    borderRadius: 10,
+    alignItems: "center",
     marginBottom: 20,
   },
-  sectionTitle: {
-    color: '#0077b6',
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 5,
+  headerText: {
+    color: "white",
+    fontSize: 24,
+    fontWeight: "bold",
   },
-  sectionSubtitle: {
-    fontWeight: 'bold',
-    marginBottom: 5,
+  title: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "#0077b6",
+    textAlign: "center",
+    marginBottom: 15,
   },
-  list: {
-    paddingLeft: 10,
+  mealCard: {
+    backgroundColor: "#ffffff",
+    borderRadius: 10,
+    padding: 15,
+    marginBottom: 15,
+    elevation: 3,
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
   },
-  listItem: {
-    marginBottom: 5,
+  mealTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#0077b6",
+    marginBottom: 10,
   },
-  nav: {
-    flexDirection: 'row',
-    marginTop: 15,
-  },
-  navLink: {
-    textDecorationLine: 'underline',
-    color: '#0077b6',
+  nutritionContainer: {
+    backgroundColor: "#eaf2f8",
     padding: 10,
-    fontSize: 14,
-    marginHorizontal: 5,
+    borderRadius: 8,
+  },
+  nutritionRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 5,
+  },
+  nutritionLabel: {
+    fontWeight: "bold",
+    color: "#555",
+  },
+  nutritionValue: {
+    color: "#333",
+  },
+  noMealText: {
+    fontSize: 16,
+    color: "gray",
+    textAlign: "center",
+    marginTop: 20,
   },
 });
+

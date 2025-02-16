@@ -14,7 +14,7 @@ export const HomeScreen = ({ navigation }) => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("http://192.168.1.4:5000/plan", {
+      const response = await fetch("https://nutri-25e3e0c915ae.herokuapp.com/plan", {
         method: "POST", // Change method to POST
         headers: {
           "Content-Type": "application/json", // Ensure the server expects JSON
@@ -104,12 +104,12 @@ export const HomeScreen = ({ navigation }) => {
         <View style={styles.column}>
           {(dayObject?.meals?.slice(0, 3) || []).map((e, index) => (
             <View key={index} style={styles.mealCard}>
-              <TouchableOpacity onPress={() => navigation.navigate('Breakfast')}>
+              <TouchableOpacity onPress={() => navigation.navigate('Breakfast', {meal:e.meal, category:e.category})}>
                 <View style={styles.cardHeader}>
                   <Text style={styles.cardHeaderText}>{e.category}</Text>
                 </View>
-                <Text>{e.meal.map(e => e.details?.name).join("\n")}</Text>
-              </TouchableOpacity>
+                <Text>{String(e.meal.map(e => e.details?.name).join("\n"))}</Text>
+                </TouchableOpacity>
             </View>
           ))}
         </View>
@@ -118,12 +118,12 @@ export const HomeScreen = ({ navigation }) => {
         <View style={styles.column}>
           {(dayObject?.meals?.slice(-3) || []).map((e, index) => (
             <View key={index} style={styles.mealCard}>
-              <TouchableOpacity onPress={() => navigation.navigate('Breakfast')}>
+              <TouchableOpacity onPress={() => navigation.navigate('Breakfast', {meal:e.meal, category:e.category})}>
                 <View style={styles.cardHeader}>
                   <Text style={styles.cardHeaderText}>{e.category}</Text>
                 </View>
-                <Text>{e.meal.map(e => e.details?.name).join("\n")}</Text>
-              </TouchableOpacity>
+                <Text>{String(e.meal.map(e => e.details?.name).join("\n"))}</Text>
+                </TouchableOpacity>
             </View>
           ))}
         </View>

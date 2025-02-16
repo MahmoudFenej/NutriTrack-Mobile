@@ -22,7 +22,7 @@ export function HomeDrawer() {
       />
       <Drawer.Screen name="About Us" component={AboutScreen} />
       <Drawer.Screen name="Menu" component={OrderScreen} />
-      <Drawer.Screen name="Generate Plan" component={NutriTrackScreen} />
+      <Drawer.Screen name="Generate Plan" initialParams={{ user }} component={NutriTrackScreen} />
       <Drawer.Screen name="Logout" component={LogoutScreen} />
     </Drawer.Navigator>
   );
