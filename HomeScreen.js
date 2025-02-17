@@ -11,13 +11,12 @@ export const HomeScreen = ({ navigation }) => {
   const [selectedDay, setSelectedDay] = useState(1);
   const [dayObject, setDayObject] = useState({});
 
-
   const fetchData = async () => {
     try {
       const response = await fetch("https://nutri-25e3e0c915ae.herokuapp.com/plan", {
-        method: "POST", // Change method to POST
+        method: "POST",
         headers: {
-          "Content-Type": "application/json", // Ensure the server expects JSON
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           user_id: user?._id,
@@ -41,7 +40,6 @@ export const HomeScreen = ({ navigation }) => {
     }
   };
 
-
   useFocusEffect(
     useCallback(() => {
       fetchData();
@@ -61,7 +59,7 @@ export const HomeScreen = ({ navigation }) => {
         <Text style={styles.title}>NutriTrack</Text>
         <View style={styles.headerIcons}>
           <TouchableOpacity>
-            <Text style={styles.iconText}>📅</Text> {/* Calendar Icon */}
+            <Text style={styles.iconText}>📅</Text> 
           </TouchableOpacity>
         </View>
       </View>
@@ -79,16 +77,16 @@ export const HomeScreen = ({ navigation }) => {
         {/* Dates */}
         <View style={styles.datesRow}>
           {[1, 2, 3, 4, 5, 6, 7].map((date, index) => (
-            <Text key={index} style={styles.dateText} onPress={() => setSelectedDay(date)}>
-              {date}
-            </Text>
+            <TouchableOpacity key={index} onPress={() => setSelectedDay(date)} style={[styles.dateBox, selectedDay === date && styles.selectedDate]}>
+              <Text style={styles.dateText}>{date}</Text>
+            </TouchableOpacity>
           ))}
         </View>
         <View style={styles.datesRow}>
           {[8, 9, 10, 11, 12, 13, 14].map((date, index) => (
-            <Text key={index} style={styles.dateText} onPress={() => setSelectedDay(date)}>
-              {date}
-            </Text>
+            <TouchableOpacity key={index} onPress={() => setSelectedDay(date)} style={[styles.dateBox, selectedDay === date && styles.selectedDate]}>
+              <Text style={styles.dateText}>{date}</Text>
+            </TouchableOpacity>
           ))}
         </View>
       </View>
@@ -104,6 +102,7 @@ export const HomeScreen = ({ navigation }) => {
       {/* Meal Sections */}
       <View style={styles.mealSections}>
         <View style={styles.column}>
+          {/* عرض الوجبات مع التمييز بالنص فقط */}
           {(dayObject?.meals?.slice(0, 3) || []).map((e, index) => (
             <View key={index} style={styles.mealCard}>
               <TouchableOpacity onPress={() => navigation.navigate('Breakfast', { meal: e.meal, category: e.category })}>
@@ -118,6 +117,7 @@ export const HomeScreen = ({ navigation }) => {
 
         {/* Second Column */}
         <View style={styles.column}>
+          {/* عرض الوجبات مع التمييز بالنص فقط */}
           {(dayObject?.meals?.slice(-3) || []).map((e, index) => (
             <View key={index} style={styles.mealCard}>
               <TouchableOpacity onPress={() => navigation.navigate('Breakfast', { meal: e.meal, category: e.category })}>
@@ -183,14 +183,27 @@ const styles = StyleSheet.create({
   },
   datesRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     marginTop: 5,
+  },
+  dateBox: {
+    backgroundColor: '#004080',
+    padding: 8,
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 35,
+    height: 35,
+    marginHorizontal: 5,
+  },
+  selectedDate: {
+    backgroundColor: '#FFA500',
   },
   dateText: {
     color: 'white',
-    fontSize: 12,
+    fontSize: 14,
+    fontWeight: 'bold',
     textAlign: 'center',
-    flex: 1,
   },
   calorieTracker: {
     alignItems: 'center',
@@ -216,18 +229,18 @@ const styles = StyleSheet.create({
   },
   mealSections: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     justifyContent: 'space-between',
     paddingHorizontal: 10,
   },
   column: {
-    flex: 1,
+    width: '48%', 
+    marginBottom: 10,
   },
   mealCard: {
-    height: 90,
     backgroundColor: '#E8F0F2',
     borderRadius: 10,
-    marginBottom: 15,
-    marginHorizontal: 5,
+    padding: 10,
   },
   cardHeader: {
     backgroundColor: '#002B5B',
@@ -239,7 +252,7 @@ const styles = StyleSheet.create({
   },
   cardHeaderText: {
     color: 'white',
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: 'bold',
   },
 });

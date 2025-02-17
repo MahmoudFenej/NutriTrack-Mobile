@@ -1,5 +1,5 @@
 import { useRoute, useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { 
   View, Text, TextInput, TouchableOpacity, StyleSheet, 
   ScrollView, Button, Alert, ActivityIndicator 
@@ -16,6 +16,22 @@ export const NutriTrackScreen = () => {
   const [gender, setGender] = useState("");
   const [goal, setGoal] = useState("weight loss");
   const [loading, setLoading] = useState(false);
+  const [waiting, setWaiting] = useState(false);
+  const [remainingTime, setRemainingTime] = useState(120); // 2 minutes = 120 seconds
+
+  // Handle the countdown logic
+  useEffect(() => {
+    let timer;
+    if (waiting && remainingTime > 0) {
+      timer = setInterval(() => {
+        setRemainingTime((prevTime) => prevTime - 1);
+      }, 1000); // Update every second
+    } else if (remainingTime === 0) {
+      setWaiting(false);
+    }
+
+    return () => clearInterval(timer); // Clean up on unmount
+  }, [waiting, remainingTime]);
 
   const handleSubmit = async () => {
     if (!age || !weight || !height || !gender || !goal || !user?._id) {
@@ -23,36 +39,43 @@ export const NutriTrackScreen = () => {
       return;
     }
 
-    setLoading(true);
-    const headers = { "content-type": "application/json" };
+    setWaiting(true); // Show waiting message
+    setRemainingTime(120); // Reset remaining time to 2 minutes
 
-    try {
-      const response = await fetch("https://nutri-25e3e0c915ae.herokuapp.com/generatePlan", {
-        headers,
-        method: "POST",
-        body: JSON.stringify({
-          age,
-          gender,
-          weight,
-          height,
-          goal,
-          user_id: user?._id
-        })
-      });
+    setTimeout(async () => {
+      setWaiting(false); // Hide waiting message after 2 minutes
+      setLoading(true);  // Start loading data
 
-      const responseData = await response.json();
+      const headers = { "content-type": "application/json" };
 
-      if (responseData) {
-        navigation.navigate("HomeDrawer", { user: responseData });
-      } else {
-        Alert.alert("Error", responseData);
+      try {
+        const response = await fetch("https://nutri-25e3e0c915ae.herokuapp.com/generatePlan", {
+          headers,
+          method: "POST",
+          body: JSON.stringify({
+            age,
+            gender,
+            weight,
+            height,
+            goal,
+            user_id: user?._id
+          })
+        });
+
+        const responseData = await response.json();
+
+        if (responseData) {
+          navigation.navigate("HomeDrawer", { user: responseData });
+        } else {
+          Alert.alert("Error", responseData);
+        }
+      } catch (error) {
+        console.error(error);
+        Alert.alert("Error", "An error occurred during generate plan.");
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error(error);
-      Alert.alert("Error", "An error occurred during generate plan.");
-    } finally {
-      setLoading(false);
-    }
+    }, 120000); // 2 minutes = 120000 milliseconds
   };
 
   return (
@@ -124,11 +147,18 @@ export const NutriTrackScreen = () => {
         </View>
       </View>
 
-      {/* Submit Button with Loader */}
+      {/* Waiting message with countdown */}
+      {waiting && (
+        <Text style={styles.waitMessage}>
+          ⏳ Please wait {remainingTime} seconds for the plan to generate...
+        </Text>
+      )}
+
+      {/* Loading indicator */}
       {loading ? (
         <ActivityIndicator size="large" color="#FFFFFF" style={styles.loader} />
       ) : (
-        <Button title="Submit" onPress={handleSubmit} disabled={loading} />
+        <Button title="Submit" onPress={handleSubmit} disabled={loading || waiting} />
       )}
     </ScrollView>
   );
@@ -187,14 +217,21 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   optionText: {
-    color: "#001F3F", // Default text color
+    color: "#001F3F",
   },
   selectedOption: {
-    backgroundColor: "#FFD700", // Highlight selected option
+    backgroundColor: "#FFD700",
   },
   selectedOptionText: {
     fontWeight: "bold",
-    color: "#001F3F", // Ensure text remains readable
+    color: "#001F3F",
+  },
+  waitMessage: {
+    textAlign: "center",
+    color: "yellow",
+    fontSize: 16,
+    marginVertical: 10,
+    fontWeight: "bold",
   },
   loader: {
     marginTop: 20,
