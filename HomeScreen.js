@@ -77,14 +77,14 @@ export const HomeScreen = ({ navigation }) => {
         {/* Dates */}
         <View style={styles.datesRow}>
           {[1, 2, 3, 4, 5, 6, 7].map((date, index) => (
-            <TouchableOpacity key={index} onPress={() => setSelectedDay(date)} style={[styles.dateBox, selectedDay === date && styles.selectedDate]}>
+            <TouchableOpacity key={index} onPress={() => setSelectedDay(date-1)} style={[styles.dateBox, selectedDay === date-1 && styles.selectedDate]}>
               <Text style={styles.dateText}>{date}</Text>
             </TouchableOpacity>
           ))}
         </View>
         <View style={styles.datesRow}>
           {[8, 9, 10, 11, 12, 13, 14].map((date, index) => (
-            <TouchableOpacity key={index} onPress={() => setSelectedDay(date)} style={[styles.dateBox, selectedDay === date && styles.selectedDate]}>
+            <TouchableOpacity key={index} onPress={() => setSelectedDay(date-1)} style={[styles.dateBox, selectedDay === date-1 && styles.selectedDate]}>
               <Text style={styles.dateText}>{date}</Text>
             </TouchableOpacity>
           ))}
@@ -232,16 +232,21 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     paddingHorizontal: 10,
+    alignItems: 'flex-start', // Ensures proper alignment
   },
   column: {
     width: '48%', 
     marginBottom: 10,
+    flexDirection: 'column', // Ensures proper stacking
   },
   mealCard: {
     backgroundColor: '#E8F0F2',
     borderRadius: 10,
     padding: 10,
+    marginBottom: 10, // Adds spacing between cards
+    minHeight: 80, // Prevents overlapping if content is dynamic
   },
+  
   cardHeader: {
     backgroundColor: '#002B5B',
     height: 25,

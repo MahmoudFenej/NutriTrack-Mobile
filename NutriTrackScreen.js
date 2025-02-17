@@ -38,45 +38,47 @@ export const NutriTrackScreen = () => {
       Alert.alert("Error", "Please fill in all the fields before proceeding.");
       return;
     }
-
-    setWaiting(true); // Show waiting message
-    setRemainingTime(120); // Reset remaining time to 2 minutes
-
-    setTimeout(async () => {
-      setWaiting(false); // Hide waiting message after 2 minutes
-      setLoading(true);  // Start loading data
-
-      const headers = { "content-type": "application/json" };
-
-      try {
-        const response = await fetch("https://nutri-25e3e0c915ae.herokuapp.com/generatePlan", {
-          headers,
-          method: "POST",
-          body: JSON.stringify({
-            age,
-            gender,
-            weight,
-            height,
-            goal,
-            user_id: user?._id
-          })
-        });
-
-        const responseData = await response.json();
-
-        if (responseData) {
-          navigation.navigate("HomeDrawer", { user: responseData });
-        } else {
-          Alert.alert("Error", responseData);
-        }
-      } catch (error) {
-        console.error(error);
-        Alert.alert("Error", "An error occurred during generate plan.");
-      } finally {
-        setLoading(false);
+  
+    setWaiting(true);
+    setRemainingTime(120); 
+  
+    setTimeout(() => {
+      setWaiting(false);
+    }, 120000);
+  
+    setLoading(true);
+  
+    const headers = { "content-type": "application/json" };
+  
+    try {
+      const response = await fetch("http://192.168.1.4:5000/generatePlan", {
+        headers,
+        method: "POST",
+        body: JSON.stringify({
+          age,
+          gender,
+          weight,
+          height,
+          goal,
+          user_id: user?._id
+        })
+      });
+  
+      const responseData = await response.json();
+  
+      if (responseData) {
+        navigation.navigate("HomeDrawer", { user: responseData });
+      } else {
+        Alert.alert("Error", responseData);
       }
-    }, 120000); // 2 minutes = 120000 milliseconds
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Error", "An error occurred during generate plan.");
+    } finally {
+      setLoading(false);
+    }
   };
+  
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
