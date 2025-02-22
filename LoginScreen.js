@@ -18,7 +18,7 @@ export function LoginScreen({ navigation }) {
       const response = await fetch("https://nutri-25e3e0c915ae.herokuapp.com/login", {
         headers,
         method: "POST",
-        body: JSON.stringify({ username: "mahmoud", password: "mahmoud" }), // تعديل هنا
+        body: JSON.stringify({ username: email, password }), // تعديل هنا
       });
 
       if (!response.ok) {

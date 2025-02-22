@@ -8,7 +8,7 @@ export const HomeScreen = ({ navigation }) => {
   const { user } = route.params || {};
 
   const [data, setData] = useState();
-  const [selectedDay, setSelectedDay] = useState(1);
+  const [selectedDay, setSelectedDay] = useState(0);
   const [dayObject, setDayObject] = useState({});
 
   const fetchData = async () => {
